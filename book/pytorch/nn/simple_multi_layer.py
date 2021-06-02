@@ -1,14 +1,6 @@
 import torch
 
-
-def activation(x):
-    """ Sigmoid activation function
-
-        Arguments
-        ---------
-        x: torch.Tensor
-    """
-    return 1 / (1 + torch.exp(-x))
+from book.pytorch.utils.tensor_utils import activation
 
 
 def simple_multi_layer_network():
