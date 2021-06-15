@@ -27,6 +27,7 @@ class Network(nn.Module):
 if __name__ == '__main__':
     model = Network()
     print(model)
+<<<<<<< HEAD
 
     # custom initialization
     model.fc1.bias.data.fill_(0)
@@ -48,3 +49,27 @@ if __name__ == '__main__':
 
     img = images[img_idx]
     helper.view_classify(img.view(1, 28, 28), ps)
+||||||| 0111d6c
+=======
+
+    # custom initialization
+    model.fc1.bias.data.fill_(0)
+    model.fc1.weight.data.normal_(std=0.01)  # sample from random normal
+
+    print(model.fc1.weight)
+    print(model.fc1.bias)
+
+    trainloader, testloader = get_mnist_loader()
+
+    dataiter = iter(trainloader)
+    images, labels = dataiter.next()
+    print(images.shape)  # [64, 1, 28, 28]
+    images.resize_(64, 1, 784)
+
+    # Forward pass through the network
+    img_idx = 0
+    ps = model.forward(images[img_idx, :])
+
+    img = images[img_idx]
+    helper.view_classify(img.view(1, 28, 28), ps)
+>>>>>>> 9d06c5028639fdc99582041dfd5366124fa47f4f

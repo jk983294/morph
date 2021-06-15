@@ -30,7 +30,20 @@ def calc_output(features, W1, W2, B1, B2):
 
 
 if __name__ == '__main__':
+<<<<<<< HEAD
     trainloader, testloader, _ = get_mnist_loader()
+||||||| 0111d6c
+    # Define a transform to normalize the data
+    transform = transforms.Compose([transforms.ToTensor(),
+                                    transforms.Normalize((0.5,), (0.5,)),
+                                    ])
+
+    # Download and load the training data
+    trainset = datasets.MNIST('~/junk/', download=True, train=True, transform=transform)
+    trainloader = torch.utils.data.DataLoader(trainset, batch_size=64, shuffle=True)
+=======
+    trainloader, testloader = get_mnist_loader()
+>>>>>>> 9d06c5028639fdc99582041dfd5366124fa47f4f
 
     dataiter = iter(trainloader)
     images, labels = dataiter.next()
