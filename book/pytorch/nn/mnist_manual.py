@@ -1,7 +1,6 @@
 import numpy as np
 import torch
-import matplotlib.pyplot as plt
-from torchvision import datasets, transforms
+from book.pytorch.utils.helper import get_mnist_loader
 from book.pytorch.utils.tensor_utils import activation, my_softmax
 
 
@@ -31,14 +30,7 @@ def calc_output(features, W1, W2, B1, B2):
 
 
 if __name__ == '__main__':
-    # Define a transform to normalize the data
-    transform = transforms.Compose([transforms.ToTensor(),
-                                    transforms.Normalize((0.5,), (0.5,)),
-                                    ])
-
-    # Download and load the training data
-    trainset = datasets.MNIST('~/junk/', download=True, train=True, transform=transform)
-    trainloader = torch.utils.data.DataLoader(trainset, batch_size=64, shuffle=True)
+    trainloader, testloader, _ = get_mnist_loader()
 
     dataiter = iter(trainloader)
     images, labels = dataiter.next()

@@ -129,3 +129,20 @@ dmypy.json
 .pyre/
 
 **/.idea/
+**/cmake-build-debug/
+
+**/.Rhistory
+**/.RData
+**/*.Rproj
+**/*.html
+**/*.pdf
+**/*.tex
+**/.Rproj.user
+.Rproj.user
+**/install
+*.bin
+*.gz
+*.o
+**/*.disv
+**/*.bak
+**/*.tgz
