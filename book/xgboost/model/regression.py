@@ -6,7 +6,6 @@ data = pd.read_excel('/home/kun/github/barn/train/Concrete_Data.xls')
 data.rename(columns={"Concrete compressive strength(MPa, megapascals) ": 'label'}, inplace=True)
 print(data.head())
 
-
 # generate test/train set
 mask = np.random.rand(len(data)) < 0.8
 train = data[mask]

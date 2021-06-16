@@ -21,7 +21,7 @@ X, y = create_data()
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
 
 clf = DecisionTreeClassifier()  # use CART algorithm
-clf.fit(X_train, y_train,)
+clf.fit(X_train, y_train, )
 clf.score(X_test, y_test)
 
 output_file_path = '/tmp/my_tree.dot'

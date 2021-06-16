@@ -14,4 +14,3 @@ clf = GridSearchCV(model, {'max_depth': [4, 5, 6], 'n_estimators': [20, 50, 70],
 clf.fit(X, y)
 print(clf.best_score_)
 print(clf.best_params_)
-

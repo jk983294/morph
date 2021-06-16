@@ -3,7 +3,6 @@ from sklearn import datasets
 from sklearn.model_selection import train_test_split
 import lightgbm as lgb
 
-
 cancer = datasets.load_breast_cancer()
 X = cancer.data
 y = cancer.target

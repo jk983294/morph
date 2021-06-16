@@ -16,4 +16,3 @@ for train_idx, test_idx in kf.split(X):
     labels = y[test_idx]
     print('kfold-%d AUC: %f' % (i, roc_auc_score(labels, preds)))
     i += 1
-

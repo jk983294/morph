@@ -51,7 +51,7 @@ class NaiveBayes:
         return 'gaussianNB train done!'
 
     def calculate_probabilities(self, input_data):
-        probabilities = {}      # label -> probability
+        probabilities = {}  # label -> probability
         for label, value in self.model.items():
             probabilities[label] = 1
             for i in range(len(value)):
@@ -79,5 +79,5 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
 
 model = NaiveBayes()
 model.fit(X_train, y_train)
-print("predicted label:", model.predict([4.4,  3.2,  1.3,  0.2]))
+print("predicted label:", model.predict([4.4, 3.2, 1.3, 0.2]))
 print("predict precision on test dataset:", model.score(X_test, y_test))

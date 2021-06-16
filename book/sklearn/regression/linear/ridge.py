@@ -2,7 +2,6 @@ from sklearn import linear_model
 import numpy as np
 from book.sklearn.core.dataset import random_split_diabetes_dataset
 
-
 diabetes_X_train, diabetes_y_train, diabetes_X_test, diabetes_y_test = random_split_diabetes_dataset()
 
 # regularization, Ridge regression

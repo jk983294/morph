@@ -3,6 +3,7 @@ sudo apt install nvidia-cuda-toolkit
 nvcc -V   # check if CUDA is successfully installed
 conda install pytorch torchvision torchaudio cudatoolkit=10.1 -c pytorch
 conda install pytorch torchvision torchaudio cpuonly -c pytorch
+pip3 install opencv-python
 
 # prepare data
 wget www.di.ens.fr/~lelarge/MNIST.tar.gz

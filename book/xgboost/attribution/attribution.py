@@ -6,7 +6,6 @@ from sklearn.model_selection import train_test_split, KFold, GridSearchCV
 from sklearn.metrics import mean_squared_error, roc_auc_score
 import matplotlib.pyplot as plt
 
-
 cancer = datasets.load_breast_cancer()
 X = cancer.data
 y = cancer.target

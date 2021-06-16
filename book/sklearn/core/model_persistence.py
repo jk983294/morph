@@ -18,4 +18,3 @@ clf2 = pickle.load(f)
 f.close()
 clf2.predict(X[0:1])
 print("predict:", clf2.predict(X[0:1])[0], " target:", y[0])
-

@@ -19,4 +19,3 @@ bst = lgb.train(param, train_data, num_round)
 preds = bst.predict(X_test)
 print(preds)
 print('The rmse of prediction is:', mean_squared_error(y_test, preds) ** 0.5)
-

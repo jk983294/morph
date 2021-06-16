@@ -6,7 +6,6 @@ from sklearn.model_selection import train_test_split, KFold, GridSearchCV
 from sklearn.metrics import mean_squared_error, roc_auc_score
 import matplotlib.pyplot as plt
 
-
 cancer = datasets.load_breast_cancer()
 X = cancer.data
 y = cancer.target
@@ -21,7 +20,7 @@ train_round_num = 50
 watch_list = [(xgb_train, 'train'), (xgb_test, 'test')]
 bst = xgb.train(param, xgb_train, train_round_num, watch_list)
 
-importance = bst.get_fscore()   # default is weight, count of feature being selected as split node
+importance = bst.get_fscore()  # default is weight, count of feature being selected as split node
 # importance = bst.get_score(importance_type='gain')
 # importance = bst.get_score(importance_type='cover')
 importance = sorted(importance.items(), key=lambda x: x[1], reverse=True)

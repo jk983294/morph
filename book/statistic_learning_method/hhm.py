@@ -3,7 +3,7 @@ import numpy as np
 
 def forward(Q, V, A, B, O, PI):
     # 使用前向算法
-    N = len(Q)  #可能存在的状态数量
+    N = len(Q)  # 可能存在的状态数量
     M = len(O)  # 观测序列的大小
     alphas = np.zeros((N, M))  # alpha值
     T = M  # 有几个时刻，有几个观测序列，就有几个时刻
@@ -55,7 +55,7 @@ def backward(Q, V, A, B, O, PI):  # 后向算法
 
 
 def viterbi(Q, V, A, B, O, PI):
-    N = len(Q)  #可能存在的状态数量
+    N = len(Q)  # 可能存在的状态数量
     M = len(O)  # 观测序列的大小
     deltas = np.zeros((N, M))
     psis = np.zeros((N, M))
@@ -85,7 +85,7 @@ def viterbi(Q, V, A, B, O, PI):
                     np.multiply(
                         [delta[t - 1] for delta in deltas],
                         [a[i]
-                         for a in A])) + 1   # 由于其返回的是索引，因此应+1才能和正常的下标值相符合。
+                         for a in A])) + 1  # 由于其返回的是索引，因此应+1才能和正常的下标值相符合。
                 print('psis%d(%d)=argmax[delta%d(j)aj%d]=%d' %
                       (realT, realI, realT - 1, realI, psis[i][t]))
     print(deltas)

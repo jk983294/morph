@@ -4,7 +4,6 @@ import pandas as pd
 
 """(PCA) selects the successive components that explain the maximum variance in the signal"""
 
-
 # Create a signal with only 2 useful dimensions
 x1 = np.random.normal(size=100)
 x2 = np.random.normal(size=100)

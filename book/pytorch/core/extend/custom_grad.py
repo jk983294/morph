@@ -1,8 +1,7 @@
 import torch
-from torch import nn
 from torch.autograd import Function
 from torch.autograd.function import _ContextMethodMixin
-from torchvision import datasets, transforms
+from torch.autograd import gradcheck
 
 
 class LinearFunction(Function):
@@ -59,3 +58,9 @@ if __name__ == '__main__':
 
     grad_ = MulConstant.backward(ctx, torch.ones([1, 3]))
     print('backward', grad_)
+
+    """ check if your gradient evaluated with these tensors are close enough to numerical approximations"""
+    input_ = (torch.randn(20, 20, dtype=torch.double, requires_grad=True), torch.tensor(3))
+    functor_ = MulConstant.apply
+    test = gradcheck(functor_, input_, eps=1e-6, atol=1e-4)
+    print(test)

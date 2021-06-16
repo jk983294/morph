@@ -17,4 +17,3 @@ for train_idx, test_idx in kf.split(X):
     labels = y[test_idx]
     print('kfold-%d MSE: %f' % (i, mean_squared_error(labels, preds)))
     i += 1
-

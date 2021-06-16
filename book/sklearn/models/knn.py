@@ -4,7 +4,6 @@ from sklearn.datasets import load_iris
 from sklearn.neighbors import KNeighborsClassifier
 from book.sklearn.core.dataset import random_split_iris_dataset
 
-
 iris_X_train, iris_y_train, iris_X_test, iris_y_test = random_split_iris_dataset()
 
 # Create and fit a nearest-neighbor classifier

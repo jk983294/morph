@@ -19,14 +19,13 @@ def create_data():
 X, y = create_data()
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
 
-
 clf = LogisticRegression(max_iter=200)
 clf.fit(X_train, y_train)
 print("predict precision on test dataset:", clf.score(X_test, y_test))
 print(clf.coef_, clf.intercept_)
 
 x_ponits = np.arange(4, 8)
-y_ = -(clf.coef_[0][0]*x_ponits + clf.intercept_)/clf.coef_[0][1]
+y_ = -(clf.coef_[0][0] * x_ponits + clf.intercept_) / clf.coef_[0][1]
 
 plt.plot(x_ponits, y_)
 plt.plot(X[:50, 0], X[:50, 1], 'bo', color='blue', label='0')

@@ -25,9 +25,9 @@ class AdaBoost:
         self.Y = None
         self.M = None
         self.N = None
-        self.clf_sets = None      # 弱分类器数目和集合
-        self.weights = None      # 初始化weights
-        self.alpha = None     # G(x)系数 alpha
+        self.clf_sets = None  # 弱分类器数目和集合
+        self.weights = None  # 初始化weights
+        self.alpha = None  # G(x)系数 alpha
 
     def init_args(self, datasets, labels):
         self.X = datasets

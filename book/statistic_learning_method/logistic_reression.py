@@ -61,7 +61,7 @@ lr_clf.fit(X_train, y_train)
 print("predict precision on test dataset:", lr_clf.score(X_test, y_test))
 
 x_ponits = np.arange(4, 8)
-y_ = -(lr_clf.weights[1]*x_ponits + lr_clf.weights[0]) / lr_clf.weights[2]
+y_ = -(lr_clf.weights[1] * x_ponits + lr_clf.weights[0]) / lr_clf.weights[2]
 
 plt.plot(x_ponits, y_)
 plt.scatter(X[:50, 0], X[:50, 1], label='0')

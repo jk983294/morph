@@ -30,9 +30,9 @@ class SVM:
         self.X = features
         self.Y = labels
         self.b = 0.0
-        self.alpha = np.ones(self.m)        # 将Ei保存在一个列表里
+        self.alpha = np.ones(self.m)  # 将Ei保存在一个列表里
         self.E = [self._E(i) for i in range(self.m)]
-        self.C = 1.0    # 松弛变量
+        self.C = 1.0  # 松弛变量
 
     def _KKT(self, i):
         y_g = self._g(i) * self.Y[i]
@@ -55,7 +55,7 @@ class SVM:
         if self._kernel == 'linear':
             return sum([x1[k] * x2[k] for k in range(self.n)])
         elif self._kernel == 'poly':
-            return (sum([x1[k] * x2[k] for k in range(self.n)]) + 1)**2
+            return (sum([x1[k] * x2[k] for k in range(self.n)]) + 1) ** 2
 
         return 0
 
@@ -112,7 +112,7 @@ class SVM:
                 continue
 
             alpha2_new_unc = self.alpha[i2] + self.Y[i2] * (
-                    E1 - E2) / eta      # 此处有修改，根据书上应该是E1 - E2，书上130-131页
+                    E1 - E2) / eta  # 此处有修改，根据书上应该是E1 - E2，书上130-131页
             alpha2_new = self._compare(alpha2_new_unc, L, H)
 
             alpha1_new = self.alpha[i1] + self.Y[i1] * self.Y[i2] * (

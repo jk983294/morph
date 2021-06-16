@@ -6,7 +6,6 @@ from sklearn.model_selection import train_test_split, KFold, GridSearchCV
 from sklearn.metrics import mean_squared_error, roc_auc_score
 from sklearn.feature_selection import SelectFromModel
 
-
 cancer = datasets.load_breast_cancer()
 X = cancer.data
 y = cancer.target
@@ -25,7 +24,7 @@ print('auc score: %.2f' % auc)
 importances = model.feature_importances_
 thresholds = []
 for importance in importances:
-    if importance not in thresholds:        # remove dupe
+    if importance not in thresholds:  # remove dupe
         thresholds.append(importance)
 
 thresholds = sorted(thresholds)

@@ -19,5 +19,5 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
 
 clf = GaussianNB()
 clf.fit(X_train, y_train)
-print("predicted label:", clf.predict([[4.4,  3.2,  1.3,  0.2]]))
+print("predicted label:", clf.predict([[4.4, 3.2, 1.3, 0.2]]))
 print("predict precision on test dataset:", clf.score(X_test, y_test))

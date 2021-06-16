@@ -20,6 +20,5 @@ watch_list = [(xgb_train, 'train'), (xgb_test, 'test')]
 bst = xgb.train(param, xgb_train, train_round_num, watch_list)
 
 leaf_index = bst.predict(xgb_train, pred_leaf=True)
-print(leaf_index.shape)     # train instance * tree number
+print(leaf_index.shape)  # train instance * tree number
 print(leaf_index)
-
