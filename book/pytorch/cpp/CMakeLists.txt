@@ -13,8 +13,8 @@ set(CMAKE_INSTALL_RPATH ${CMAKE_INSTALL_PREFIX}/lib)
 SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 set(CMAKE_CXX_STANDARD 17)
 
-#SET(CMAKE_CXX_FLAGS "-std=c++17 -O3 -Wall -Werror")
-SET(CMAKE_CXX_FLAGS "-std=c++17 -g -Wall -Werror")
+#SET(CMAKE_CXX_FLAGS "-std=c++14 -O3 -Wall -Werror")
+SET(CMAKE_CXX_FLAGS "-std=c++14 -g -Wall -Werror")
 find_package(Torch REQUIRED)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${TORCH_CXX_FLAGS}")
 
