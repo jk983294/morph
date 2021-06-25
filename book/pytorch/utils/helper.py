@@ -115,8 +115,10 @@ def plot_train_test_loss(train_losses, test_losses):
     plt.show()
 
 
-def get_mnist_loader(batch_size=64, valid_size=0.0, num_workers=0):
+def get_mnist_loader(batch_size=64, valid_size=0.0, num_workers=0, is_norm=True):
     transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,)), ])
+    if not is_norm:
+        transform = transforms.Compose([transforms.ToTensor()])
     train_data = datasets.MNIST('~/junk/', download=True, train=True, transform=transform)
     test_data = datasets.MNIST('~/junk/', download=True, train=False, transform=transform)
     if valid_size > 1e-3:

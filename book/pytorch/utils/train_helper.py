@@ -1,4 +1,5 @@
 import torch
+import numpy as np
 
 
 def train_loop(dataloader, model, loss_fn, optimizer):
@@ -38,3 +39,18 @@ def epoch_loop(train_dataloader, test_dataloader, model, loss_fn, optimizer, epo
         print(f"Epoch {t + 1}\n-------------------------------")
         train_loop(train_dataloader, model, loss_fn, optimizer)
         test_loop(test_dataloader, model, loss_fn)
+
+
+def one_hot_encode(arr, n_labels):
+    one_hot = np.zeros((arr.size, n_labels), dtype=np.float32)
+    # Fill the appropriate elements with ones
+    one_hot[np.arange(one_hot.shape[0]), arr.flatten()] = 1.
+    # Finally reshape it to get back to the original array
+    one_hot = one_hot.reshape((*arr.shape, n_labels))
+    return one_hot
+
+
+if __name__ == '__main__':
+    test_seq = np.array([[3, 5, 1]])
+    one_hot = one_hot_encode(test_seq, 8)
+    print(one_hot)
