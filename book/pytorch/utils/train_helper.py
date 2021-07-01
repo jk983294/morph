@@ -50,7 +50,23 @@ def one_hot_encode(arr, n_labels):
     return one_hot
 
 
+def get_target(words, idx, window_size=5):
+    """ Get a list of words in a window around an index. """
+    R = np.random.randint(1, window_size + 1)
+    start = idx - R if (idx - R) > 0 else 0
+    stop = idx + R
+    target_words = words[start:idx] + words[idx + 1:stop + 1]
+    return list(target_words)
+
+
 if __name__ == '__main__':
     test_seq = np.array([[3, 5, 1]])
     one_hot = one_hot_encode(test_seq, 8)
     print(one_hot)
+
+    int_text = [i for i in range(10)]
+    print('Input: ', int_text)
+    idx = 5  # word index of interest
+
+    target = get_target(int_text, idx=idx, window_size=5)
+    print('Target: ', target)  # you should get some indices around the idx
