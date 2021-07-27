@@ -1,1 +1,0 @@
-conda install -c anaconda tensorflow-gpu
