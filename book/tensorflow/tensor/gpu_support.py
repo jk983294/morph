@@ -5,11 +5,11 @@ import numpy as np
 
 
 def time_matmul(x):
-  start = time.time()
-  for loop in range(10):
-    tf.matmul(x, x)
-  result = time.time()-start
-  print("10 loops: {:0.2f}ms".format(1000*result))
+    start = time.time()
+    for loop in range(10):
+        tf.matmul(x, x)
+    result = time.time() - start
+    print("10 loops: {:0.2f}ms".format(1000 * result))
 
 
 if __name__ == '__main__':

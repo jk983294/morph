@@ -43,6 +43,7 @@ if __name__ == '__main__':
     test_loss = tf.keras.metrics.Mean(name='test_loss')
     test_accuracy = tf.keras.metrics.SparseCategoricalAccuracy(name='test_accuracy')
 
+
     @tf.function
     def train_step(images, labels):
         with tf.GradientTape() as tape:

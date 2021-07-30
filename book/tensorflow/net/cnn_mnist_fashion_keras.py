@@ -1,7 +1,6 @@
 import tensorflow as tf
 import numpy as np
 
-
 if __name__ == '__main__':
     mnist = tf.keras.datasets.fashion_mnist
     (train_images, train_labels), (test_images, test_labels) = mnist.load_data()

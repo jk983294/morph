@@ -147,3 +147,6 @@ dmypy.json
 **/*.bak
 **/*.tgz
 **/*torchviz*
+**/*.png
+**/ckpt/
+**/tb/
