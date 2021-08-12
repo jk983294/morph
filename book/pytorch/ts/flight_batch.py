@@ -35,7 +35,7 @@ class LstmModel(nn.Module):
 
     def forward(self, x):
         """
-        x: (120, 12, 1) (batch, seq_len, output_size)
+        x: (120, 12, 1) (batch, seq_len, input_size)
         h_0: (1, 120, 2) (num_layers * output_size, batch, hidden_size)
         """
         h_0 = Variable(torch.zeros(self.num_layers, x.size(0), self.hidden_size))
