@@ -51,8 +51,9 @@ if __name__ == '__main__':
             # Take the action (a) and observe the outcome state(s') and reward (r)
             new_state, reward, done, info = env.step(action)
 
-            # Update Q(s,a):= Q(s,a) + lr [R(s,a) + gamma * max Q(s',a') - Q(s,a)]
-            Q[state][action] = Q[state][action] + lr * (reward + dr * np.max(Q[new_state]) - Q[state][action])
+            # Update Q(s,a):= (1-lr) * Q(s,a) + lr * [R(s,a) + gamma * max Q(s',a')]
+            new_estimate = reward + dr * np.max(Q[new_state])
+            Q[state][action] = (1 - lr) * Q[state][action] + lr * new_estimate
 
             if done:
                 break

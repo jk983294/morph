@@ -33,9 +33,10 @@ def get_episode_batch(env, net, batch_size):
     states_ = env.reset()
     sm = nn.Softmax(dim=1)
     while True:
-        states_v = torch.FloatTensor([states_])
-        act_probs_v = sm(net(states_v))
-        act_probs = act_probs_v.data.numpy()[0]
+        with torch.no_grad():
+            states_v = torch.FloatTensor([states_])
+            act_probs_v = sm(net(states_v))
+            act_probs = act_probs_v.data.numpy()[0]
         action = np.random.choice(len(act_probs), p=act_probs)
         next_states_, reward, is_done, _ = env.step(action)
         episode_reward += reward
@@ -103,6 +104,10 @@ if __name__ == '__main__':
 
         optimizer.zero_grad()
         action_scores_v = model.forward(obs_v)
+        """
+        calculates cross-entropy between the network output and the actions that the agent took. 
+        The idea of this is to reinforce our network to carry out those "elite" actions which have led to good rewards.
+        """
         loss = criterion(action_scores_v, acts_v)
         loss.backward()
         optimizer.step()
@@ -112,11 +117,14 @@ if __name__ == '__main__':
         writer.add_scalar("reward_bound", reward_b, ep)
         writer.add_scalar("reward_mean", reward_m, ep)
 
+        if reward_m > 199:
+            print("Solved!")
+            break
+
     writer.close()
 
     # test model
-    env.reset()
-    state, reward, done, _ = env.step(env.action_space.sample())  # Take one random step to get system moving
+    state = env.reset()
     t = 0
     model.eval()
     sm = nn.Softmax(dim=1)
@@ -125,7 +133,9 @@ if __name__ == '__main__':
         env.render()
         test_step += 1
 
-        act_probs_v = model.forward(torch.from_numpy(state).float())
+        with torch.no_grad():
+            act_probs_v = model.forward(torch.from_numpy(state).float())
+            act_probs_v = sm(act_probs_v.unsqueeze(0))
         act_probs = act_probs_v.detach().numpy()[0]
         action = np.argmax(act_probs)
 
