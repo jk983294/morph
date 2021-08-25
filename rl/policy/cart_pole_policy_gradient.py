@@ -3,6 +3,7 @@ from torch import nn
 import torch.nn.functional as F
 import torch
 import numpy as np
+from rl.utils.rl_utils import test_policy_model
 
 
 class PolicyNetwork(nn.Module):
@@ -42,9 +43,12 @@ def discount_and_normalize_rewards(ep_rewards):
 
 if __name__ == '__main__':
     """
-    Instead of using a table then, 
-    we'll replace it with a neural network that will approximate the Q-table lookup function
-    model = Q function, output = (action_num), take action(i), get Q value output(i)
+    policy network output probabilities of actions
+    good action has high prob, bad action has low prob, then sample from the action distribution.
+    No replay buffer is used. PG methods belong to the on-policy methods class.
+    No target network is needed.
+    weak:
+    wait for the full episode to complete before we can start training.
     """
     env = gym.make('CartPole-v0')
     env = env.unwrapped
@@ -124,24 +128,5 @@ if __name__ == '__main__':
                 break
 
     # test model
-    test_max_steps = 400
-    total_rewards = 0
-    state = env.reset()
-    model.eval()
-    while True:
-        env.render()
-
-        with torch.no_grad():
-            action_prob_distribution = F.softmax(model.forward(torch.from_numpy(state).float()), dim=0).numpy()
-        action = np.random.choice(range(action_prob_distribution.shape[0]), p=action_prob_distribution.ravel())
-
-        # Perform a
-        new_state, reward, done, info = env.step(action)
-        total_rewards += reward
-
-        if done:
-            print("Score", total_rewards)
-            break
-        else:
-            state = new_state
+    test_policy_model(env, model)
     env.close()
