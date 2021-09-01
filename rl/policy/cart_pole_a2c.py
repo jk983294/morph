@@ -53,28 +53,6 @@ def unpack_batch(batch, net, device, GAMMA, REWARD_STEPS):
     return states_v, actions_t, q_vals_v
 
 
-# def calc_loss(batch, net, tgt_net, device, GAMMA, double=True):
-#     states, actions, rewards, dones, next_states = batch
-#
-#     states_v = torch.FloatTensor(states).to(device)
-#     next_states_v = torch.FloatTensor(next_states).to(device)
-#     actions_v = torch.tensor(actions).to(device)
-#     rewards_v = torch.FloatTensor(rewards).to(device)
-#     done_mask = torch.BoolTensor(dones).to(device)
-#
-#     state_action_values = net(states_v).gather(1, actions_v.unsqueeze(-1)).squeeze(-1)
-#     if double:
-#         next_state_actions = net(next_states_v).max(1)[1]
-#         next_state_values = tgt_net(next_states_v).gather(1, next_state_actions.unsqueeze(-1)).squeeze(-1)
-#     else:
-#         next_state_values = tgt_net(next_states_v).max(1)[0]
-#     next_state_values[done_mask] = 0.0  # without this, training will not converge
-#     next_state_values = next_state_values.detach()
-#
-#     expected_state_action_values = next_state_values * GAMMA + rewards_v
-#     return nn.MSELoss()(state_action_values, expected_state_action_values)
-
-
 if __name__ == '__main__':
     """
     a larger learning rate will lead to faster convergence
