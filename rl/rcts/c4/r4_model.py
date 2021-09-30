@@ -10,9 +10,9 @@ OBS_SHAPE = (2, game.GAME_ROWS, game.GAME_COLS)
 NUM_FILTERS = 64
 
 
-class Net(nn.Module):
+class R4Net(nn.Module):
     def __init__(self, input_shape, actions_n):
-        super(Net, self).__init__()
+        super(R4Net, self).__init__()
 
         self.conv_in = nn.Sequential(
             nn.Conv2d(input_shape[0], NUM_FILTERS, kernel_size=3, padding=1),
@@ -63,7 +63,7 @@ class Net(nn.Module):
             nn.Tanh()
         )
 
-        # policy head
+        # policy head, output logits for every possible action
         self.conv_policy = nn.Sequential(
             nn.Conv2d(NUM_FILTERS, 2, kernel_size=1),
             nn.BatchNorm2d(2),
@@ -83,6 +83,7 @@ class Net(nn.Module):
         return int(np.prod(o.size()))
 
     def forward(self, x):
+        """(batch_size, 2, 6, 7)"""
         batch_size = x.size()[0]
         v = self.conv_in(x)
         v = v + self.conv_1(v)
@@ -90,16 +91,21 @@ class Net(nn.Module):
         v = v + self.conv_3(v)
         v = v + self.conv_4(v)
         v = v + self.conv_5(v)
-        val = self.conv_val(v)
-        val = self.value(val.view(batch_size, -1))
-        pol = self.conv_policy(v)
-        pol = self.policy(pol.view(batch_size, -1))
-        return pol, val
+        value_ = self.conv_val(v)
+        value_ = self.value(value_.view(batch_size, -1))
+        policy_ = self.conv_policy(v)
+        policy_ = self.policy(policy_.view(batch_size, -1))
+        return policy_, value_
 
 
 def _encode_list_state(dest_np, state_list, who_move):
     """
-    In-place encodes list state into the zero numpy array
+    it consists of two 6 × 7 channels.
+    The first has 1.0 places with the current player's disks
+    and the second channel has 1.0, where the opponent has their disks.
+    This representation allows us to make the network player invariant and analyze the position from
+    the perspective of the current player.
+
     :param dest_np: dest array, expected to be zero
     :param state_list: state of the game in the list form
     :param who_move: player index (game.PLAYER_WHITE or game.PLAYER_BLACK) who to move
@@ -152,25 +158,27 @@ def state_lists_to_batch(state_lists, who_moves_lists, device="cpu"):
 #         if len(game.possible_moves(state)) == 0:
 #             return 0.0
 #         cur_player = 1 - cur_player
-#
 
 
-def play_game(mcts_stores, replay_buffer, net1, net2, steps_before_tau_0, mcts_searches, mcts_batch_size,
-              net1_plays_first=None, device="cpu"):
+def play_game(mcts_stores, replay_buffer, net1: R4Net, net2: R4Net, steps_before_tau_0: int,
+              mcts_searches: int, mcts_batch_size: int, net1_plays_first=None, device="cpu"):
     """
     Play one single game, memorizing transitions into the replay buffer
     :param mcts_stores: could be None or single MCTS or two MCTSes for individual net
     :param replay_buffer: queue with (state, probs, values), if None, nothing is stored
     :param net1: player1
     :param net2: player2
+    :param steps_before_tau_0: the amount of game steps needed to be taken before tau used
+    :param mcts_searches: the amount of MCTS to perform
+    :param mcts_batch_size:
+    :param net1_plays_first: who plays first
+    :param device:
     :return: value for the game in respect to player1 (+1 if p1 won, -1 if lost, 0 if draw)
     """
     assert isinstance(replay_buffer, (collections.deque, type(None)))
-    assert isinstance(net1, Net)
-    assert isinstance(net2, Net)
-    assert isinstance(steps_before_tau_0, int) and steps_before_tau_0 >= 0
-    assert isinstance(mcts_searches, int) and mcts_searches > 0
-    assert isinstance(mcts_batch_size, int) and mcts_batch_size > 0
+    assert steps_before_tau_0 >= 0
+    assert mcts_searches > 0
+    assert mcts_batch_size > 0
 
     if mcts_stores is None:
         mcts_stores = [mcts.MCTS(), mcts.MCTS()]
@@ -198,12 +206,15 @@ def play_game(mcts_stores, replay_buffer, net1, net2, steps_before_tau_0, mcts_s
         action = np.random.choice(game.GAME_COLS, p=probs)
         if action not in game.possible_moves(state):
             print("Impossible action selected")
-        state, won = game.move(state, action, cur_player)
+        state_new, won = game.move(state, action, cur_player)
+        print('player {}, {} -> {} take action {}, get {}'.format(cur_player, state, state_new, action, won))
+        state = state_new
         if won:
             result = 1
             net1_result = 1 if cur_player == 0 else -1
             break
-        cur_player = 1-cur_player
+        cur_player = 1 - cur_player
+
         # check the draw case
         if len(game.possible_moves(state)) == 0:
             result = 0
